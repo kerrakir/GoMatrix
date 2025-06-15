@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"os/exec"
-	"runtime"
+	/*"os/exec"
+	"runtime"*/
 	"time"
 )
 
@@ -17,13 +17,13 @@ const (
 
 var charset = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&")
 
-func clearScreen() {
+/*func clearScreen() {
 	if runtime.GOOS == "windows" {
 		exec.Command("cmd", "/c", "cls").Run()
 	} else {
 		fmt.Print("\033[2J")
 	}
-}
+}*/
 
 func drawChar(x, y int, r rune, style string) {
 	if y >= 0 && y < height {
@@ -40,7 +40,7 @@ func clearChar(x, y int) {
 func rainColumn(x int) {
 	for {
 		length := rand.Intn(maxLen-minLen) + minLen
-		startY := rand.Intn(height/2) * -1 
+		startY := rand.Intn(height/2) * -1
 		speed := time.Duration(rand.Intn(20)+20) * time.Millisecond
 
 		for y := startY; y < height+length; y++ {
@@ -50,10 +50,10 @@ func rainColumn(x int) {
 
 			for i := 1; i < length; i++ {
 				yy := y - i
-				drawChar(x, yy, charset[rand.Intn(len(charset))], "\033[2;32m") 
+				drawChar(x, yy, charset[rand.Intn(len(charset))], "\033[2;32m")
 			}
 
-			drawChar(x, y, charset[rand.Intn(len(charset))], "\033[1;37m") 
+			drawChar(x, y, charset[rand.Intn(len(charset))], "\033[1;37m")
 
 			time.Sleep(speed)
 		}
@@ -64,8 +64,8 @@ func rainColumn(x int) {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	clearScreen()
-	fmt.Print("\033[?25l")       
+	//clearScreen()
+	fmt.Print("\033[?25l")
 	defer fmt.Print("\033[?25h")
 
 	for x := 1; x < width; x += 2 {
@@ -73,5 +73,5 @@ func main() {
 		time.Sleep(10 * time.Millisecond)
 	}
 
-	select {} 
+	select {}
 }
